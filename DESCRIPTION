@@ -28,6 +28,7 @@ Suggests:
     evaluate,
     fansi,
     future,
+    future.apply,
     GenSA,
     GGally,
     ggfortify,
