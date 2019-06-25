@@ -621,6 +621,7 @@ Here, we call `r ref("benchmark")` to perform a single holdout split on a single
 
 ```{r 01-mlr3-basics-054}
 library("data.table")
+library("rpart")
 
 design = data.table(
   task = mlr_tasks$mget("iris"),
@@ -684,7 +685,7 @@ For example, we might be interested which learner performed best over all tasks.
 Since we have `r ref("data.table")` object here, we could do the following:
 
 ```{r 01-mlr3-basics-058}
-bmr$aggregated(objects = FALSE)[, list(acc = mean(classif.acc), auc = mean(classif.auc)), by = "learner_id"]
+#bmr$aggregated(objects = FALSE)[, list(acc = mean(classif.acc), auc = mean(classif.auc)), by = "learner_id"]
 ```
 
 Alternatively, we can also use the `r cran_pkg("tidyverse")` approach:
