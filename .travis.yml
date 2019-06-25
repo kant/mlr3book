@@ -15,7 +15,10 @@ before_script: R -q -e 'tic::before_script()'
 script: R -q -e 'tic::script()'
 after_success: R -q -e 'tic::after_success()'
 after_failure: R -q -e 'tic::after_failure()'
-before_deploy: R -q -e 'tic::before_deploy()'
+before_deploy:
+  - R -q -e 'tic::before_deploy()'
+  - R CMD build "."
+  - R CMD install "${PKG_TARBALL}"
 deploy:
   provider: script
   script: R -q -e 'tic::deploy()'
