@@ -32,6 +32,7 @@ knitr::opts_chunk$set(collapse = TRUE)
 lgr::get_logger("mlr3")$set_threshold("warn")
 requireNamespace("kableExtra")
 library("R6")
+library("mlr3book")
 ```
 
 # Prerequisites
