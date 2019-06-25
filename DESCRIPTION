@@ -25,6 +25,7 @@ Suggests:
     callr,
     dplyr,
     evaluate,
+    fansi,
     GenSA,
     GGally,
     ggfortify,
