@@ -46,5 +46,5 @@ remotes::install_github("mlr-org/mlr3book", dependencies = TRUE)
 After the installation, load the `mlr3` package and you are good to go:
 
 ```{r index-003, eval = FALSE}
-library(mlr3)
+library("mlr3")
 ```
