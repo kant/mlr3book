@@ -27,6 +27,7 @@ Suggests:
     dplyr,
     evaluate,
     fansi,
+    future,
     GenSA,
     GGally,
     ggfortify,

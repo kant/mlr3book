@@ -620,7 +620,8 @@ Additionally, you can supply different `r ref("Measure")` along side.
 Here, we call `r ref("benchmark")` to perform a single holdout split on a single task and two learners:
 
 ```{r 01-mlr3-basics-054}
-library(data.table)
+library("data.table")
+
 design = data.table(
   task = mlr_tasks$mget("iris"),
   learner = mlr_learners$mget(c("classif.rpart", "classif.featureless")),
