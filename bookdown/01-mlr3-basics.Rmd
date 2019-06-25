@@ -623,13 +623,13 @@ Here, we call `r ref("benchmark")` to perform a single holdout split on a single
 library("data.table")
 library("rpart")
 
-design = data.table(
-  task = mlr_tasks$mget("iris"),
-  learner = mlr_learners$mget(c("classif.rpart", "classif.featureless")),
-  resampling = mlr_resamplings$mget("holdout")
-)
-print(design)
-bmr = benchmark(design)
+# design = data.table(
+#   task = mlr_tasks$mget("iris"),
+#   learner = mlr_learners$mget(c("classif.rpart", "classif.featureless")),
+#   resampling = mlr_resamplings$mget("holdout")
+# )
+# print(design)
+# bmr = benchmark(design)
 ```
 
 Note that the holdout splits have been automatically instantiated for each row of the design.
