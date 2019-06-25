@@ -5,7 +5,7 @@
 A typical machine-learning workflow looks like this:
 
 ```{r 01-mlr3-basics-001, echo = FALSE}
-knitr::include_graphics("images/ml_abstraction.png")
+knitr::include_graphics("bookdown/images/ml_abstraction.png")
 ```
 
 We refer to "building blocks" in our guide as steps in the machine-learning workflow.

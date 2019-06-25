@@ -340,7 +340,7 @@ In order to obtain unbiased performance estimates for a learners, all parts of t
 For steps that themselves require resampling like hyperparameter tuning or feature-selection (via the wrapper approach) this results in two nested resampling loops.
 
 ```{r 02-model-optimization-018, echo = FALSE}
-knitr::include_graphics("images/nested_resampling.png")
+knitr::include_graphics("bookdown/images/nested_resampling.png")
 ```
 
 The graphic above illustrates nested resampling for parameter tuning with 3-fold cross-validation in the outer and 4-fold cross-validation in the inner loop.
