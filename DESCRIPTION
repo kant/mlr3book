@@ -35,6 +35,7 @@ Suggests:
     kableExtra,
     magrittr,
     mlbench,
+    lhs,
     mlr3db,
     mlr3featsel,
     mlr3learners,
