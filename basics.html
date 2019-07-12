@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2 mlr3 Basics | mlr3 manual</title>
+  <meta name="description" content="2 mlr3 Basics | mlr3 manual" />
+  <meta name="generator" content="bookdown 0.12 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2 mlr3 Basics | mlr3 manual" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://mlr3book.mlr-org.com" />
+  
+  
+  <meta name="github-repo" content="mlr-org/mlr3book" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2 mlr3 Basics | mlr3 manual" />
+  
+  
+  
+
+<meta name="author" content="The mlr-org Team" />
+
+
+<meta name="date" content="2019-07-12" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html">
+<link rel="next" href="introduction.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<link href="libs/vis-4.20.1/vis.css" rel="stylesheet" />
+<script src="libs/vis-4.20.1/vis.min.js"></script>
+<script src="libs/visNetwork-binding-2.0.7/visNetwork.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; } /* Alert */
+code span.an { color: #008000; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #0000ff; } /* ControlFlow */
+code span.ch { color: #008080; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #008000; } /* Comment */
+code span.cv { color: #008000; } /* CommentVar */
+code span.do { color: #008000; } /* Documentation */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.im { } /* Import */
+code span.in { color: #008000; } /* Information */
+code span.kw { color: #0000ff; } /* Keyword */
+code span.op { } /* Operator */
+code span.ot { color: #ff4000; } /* Other */
+code span.pp { color: #ff4000; } /* Preprocessor */
+code span.sc { color: #008080; } /* SpecialChar */
+code span.ss { color: #008080; } /* SpecialString */
+code span.st { color: #008080; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #008080; } /* VerbatimString */
+code span.wa { color: #008000; font-weight: bold; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">mlr3 Manual</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a></li>
+<li class="chapter" data-level="2" data-path="basics.html"><a href="basics.html"><i class="fa fa-check"></i><b>2</b> mlr3 Basics</a><ul>
+<li class="chapter" data-level="2.1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>2.1</b> Introduction</a></li>
+<li class="chapter" data-level="2.2" data-path="tasks-learners.html"><a href="tasks-learners.html"><i class="fa fa-check"></i><b>2.2</b> Tasks &amp; Learners</a></li>
+<li class="chapter" data-level="2.3" data-path="tasks.html"><a href="tasks.html"><i class="fa fa-check"></i><b>2.3</b> Tasks</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="tasks.html"><a href="tasks.html#task-types"><i class="fa fa-check"></i><b>2.3.1</b> Task Types</a></li>
+<li class="chapter" data-level="2.3.2" data-path="tasks.html"><a href="tasks.html#task-creation"><i class="fa fa-check"></i><b>2.3.2</b> Task Creation</a></li>
+<li class="chapter" data-level="2.3.3" data-path="tasks.html"><a href="tasks.html#predefined-tasks"><i class="fa fa-check"></i><b>2.3.3</b> Predefined tasks</a></li>
+<li class="chapter" data-level="2.3.4" data-path="tasks.html"><a href="tasks.html#task-api"><i class="fa fa-check"></i><b>2.3.4</b> Task API</a><ul>
+<li class="chapter" data-level="2.3.4.1" data-path="tasks.html"><a href="tasks.html#retrieve-data"><i class="fa fa-check"></i><b>2.3.4.1</b> Retrieve Data</a></li>
+<li class="chapter" data-level="2.3.4.2" data-path="tasks.html"><a href="tasks.html#roles-rows-and-columns"><i class="fa fa-check"></i><b>2.3.4.2</b> Roles (Rows and Columns)</a></li>
+<li class="chapter" data-level="2.3.4.3" data-path="tasks.html"><a href="tasks.html#task-mutators"><i class="fa fa-check"></i><b>2.3.4.3</b> Task Mutators</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="learners.html"><a href="learners.html"><i class="fa fa-check"></i><b>2.4</b> Learners</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="learners.html"><a href="learners.html#predefined-learners"><i class="fa fa-check"></i><b>2.4.1</b> Predefined Learners</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="train-predict.html"><a href="train-predict.html"><i class="fa fa-check"></i><b>2.5</b> Train &amp; Predict</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="train-predict.html"><a href="train-predict.html#basic-concept"><i class="fa fa-check"></i><b>2.5.1</b> Basic concept</a><ul>
+<li class="chapter" data-level="2.5.1.1" data-path="train-predict.html"><a href="train-predict.html#creating-task-and-learner-objects"><i class="fa fa-check"></i><b>2.5.1.1</b> Creating Task and Learner Objects</a></li>
+<li class="chapter" data-level="2.5.1.2" data-path="train-predict.html"><a href="train-predict.html#setting-up-the-traintest-splits-of-the-data-split-data"><i class="fa fa-check"></i><b>2.5.1.2</b> Setting up the train/test splits of the data (#split-data)</a></li>
+<li class="chapter" data-level="2.5.1.3" data-path="train-predict.html"><a href="train-predict.html#training-the-learner"><i class="fa fa-check"></i><b>2.5.1.3</b> Training the learner</a></li>
+<li class="chapter" data-level="2.5.1.4" data-path="train-predict.html"><a href="train-predict.html#predicting"><i class="fa fa-check"></i><b>2.5.1.4</b> Predicting</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="resampling.html"><a href="resampling.html"><i class="fa fa-check"></i><b>2.6</b> Resampling</a><ul>
+<li class="chapter" data-level="2.6.1" data-path="resampling.html"><a href="resampling.html#resamp-settings"><i class="fa fa-check"></i><b>2.6.1</b> Settings</a></li>
+<li class="chapter" data-level="2.6.2" data-path="resampling.html"><a href="resampling.html#resamp-inst"><i class="fa fa-check"></i><b>2.6.2</b> Instantiation</a></li>
+<li class="chapter" data-level="2.6.3" data-path="resampling.html"><a href="resampling.html#resamp-exec"><i class="fa fa-check"></i><b>2.6.3</b> Execution</a></li>
+<li class="chapter" data-level="2.6.4" data-path="resampling.html"><a href="resampling.html#custom-resampling"><i class="fa fa-check"></i><b>2.6.4</b> Custom resampling</a></li>
+</ul></li>
+<li class="chapter" data-level="2.7" data-path="benchmarking.html"><a href="benchmarking.html"><i class="fa fa-check"></i><b>2.7</b> Benchmarking</a><ul>
+<li class="chapter" data-level="2.7.1" data-path="benchmarking.html"><a href="benchmarking.html#bm-design"><i class="fa fa-check"></i><b>2.7.1</b> Design Creation</a></li>
+<li class="chapter" data-level="2.7.2" data-path="benchmarking.html"><a href="benchmarking.html#bm-exec"><i class="fa fa-check"></i><b>2.7.2</b> Execution and Aggregation of Results</a></li>
+<li class="chapter" data-level="2.7.3" data-path="benchmarking.html"><a href="benchmarking.html#converting-specific-benchmark-objects-to-resample-objects"><i class="fa fa-check"></i><b>2.7.3</b> Converting specific benchmark objects to resample objects</a></li>
+</ul></li>
+<li class="chapter" data-level="2.8" data-path="binary.html"><a href="binary.html"><i class="fa fa-check"></i><b>2.8</b> Binary classification</a><ul>
+<li class="chapter" data-level="2.8.1" data-path="binary.html"><a href="binary.html#roc"><i class="fa fa-check"></i><b>2.8.1</b> ROC</a></li>
+<li class="chapter" data-level="2.8.2" data-path="binary.html"><a href="binary.html#thresholds"><i class="fa fa-check"></i><b>2.8.2</b> Thresholds</a></li>
+</ul></li>
+<li class="chapter" data-level="2.9" data-path="mlr-mlr3-transition-guide.html"><a href="mlr-mlr3-transition-guide.html"><i class="fa fa-check"></i><b>2.9</b> <code>mlr</code> -&gt; <code>mlr3</code> Transition Guide</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="model-optim.html"><a href="model-optim.html"><i class="fa fa-check"></i><b>3</b> Model Optimization</a><ul>
+<li class="chapter" data-level="3.1" data-path="tuning.html"><a href="tuning.html"><i class="fa fa-check"></i><b>3.1</b> Hyperparameter Tuning</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="tuning.html"><a href="tuning.html#the-performance-evaluator-class"><i class="fa fa-check"></i><b>3.1.1</b> The <code>Performance Evaluator</code> class</a></li>
+<li class="chapter" data-level="3.1.2" data-path="tuning.html"><a href="tuning.html#tuning-spaces"><i class="fa fa-check"></i><b>3.1.2</b> Tuning Hyperparameter Spaces</a></li>
+<li class="chapter" data-level="3.1.3" data-path="tuning.html"><a href="tuning.html#defining-the-terminator"><i class="fa fa-check"></i><b>3.1.3</b> Defining the Terminator</a></li>
+<li class="chapter" data-level="3.1.4" data-path="tuning.html"><a href="tuning.html#executing-the-tuning"><i class="fa fa-check"></i><b>3.1.4</b> Executing the Tuning</a></li>
+<li class="chapter" data-level="3.1.5" data-path="tuning.html"><a href="tuning.html#inspecting-results"><i class="fa fa-check"></i><b>3.1.5</b> Inspecting Results</a></li>
+<li class="chapter" data-level="3.1.6" data-path="tuning.html"><a href="tuning.html#autotuner"><i class="fa fa-check"></i><b>3.1.6</b> Automating the Tuning</a></li>
+<li class="chapter" data-level="3.1.7" data-path="tuning.html"><a href="tuning.html#summary"><i class="fa fa-check"></i><b>3.1.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="fs.html"><a href="fs.html"><i class="fa fa-check"></i><b>3.2</b> Feature Selection / Filtering</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="fs.html"><a href="fs.html#fs-filter"><i class="fa fa-check"></i><b>3.2.1</b> Filters</a><ul>
+<li class="chapter" data-level="3.2.1.1" data-path="fs.html"><a href="fs.html#fs-calc"><i class="fa fa-check"></i><b>3.2.1.1</b> Calculating filter values</a></li>
+<li class="chapter" data-level="3.2.1.2" data-path="fs.html"><a href="fs.html#fs-comb"><i class="fa fa-check"></i><b>3.2.1.2</b> Combining filter values</a></li>
+<li class="chapter" data-level="3.2.1.3" data-path="fs.html"><a href="fs.html#filter-subset"><i class="fa fa-check"></i><b>3.2.1.3</b> Selecting a feature subset</a></li>
+<li class="chapter" data-level="3.2.1.4" data-path="fs.html"><a href="fs.html#filter-construction"><i class="fa fa-check"></i><b>3.2.1.4</b> Custom construction of filters</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2.2" data-path="fs.html"><a href="fs.html#fs-wrapper"><i class="fa fa-check"></i><b>3.2.2</b> Wrapper Methods</a></li>
+<li class="chapter" data-level="3.2.3" data-path="fs.html"><a href="fs.html#fs-embedded"><i class="fa fa-check"></i><b>3.2.3</b> Embedded Methods</a></li>
+<li class="chapter" data-level="3.2.4" data-path="fs.html"><a href="fs.html#fs-ensemble"><i class="fa fa-check"></i><b>3.2.4</b> Ensemble Methods</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="nested-resampling.html"><a href="nested-resampling.html"><i class="fa fa-check"></i><b>3.3</b> Nested Resampling</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="nested-resampling.html"><a href="nested-resampling.html#introduction-1"><i class="fa fa-check"></i><b>3.3.1</b> Introduction</a></li>
+<li class="chapter" data-level="3.3.2" data-path="nested-resampling.html"><a href="nested-resampling.html#execution"><i class="fa fa-check"></i><b>3.3.2</b> Execution</a></li>
+<li class="chapter" data-level="3.3.3" data-path="nested-resampling.html"><a href="nested-resampling.html#rr-eval"><i class="fa fa-check"></i><b>3.3.3</b> Evaluation</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="pipelines.html"><a href="pipelines.html"><i class="fa fa-check"></i><b>4</b> Pipelines</a><ul>
+<li class="chapter" data-level="4.1" data-path="the-building-blocks-pipeops.html"><a href="the-building-blocks-pipeops.html"><i class="fa fa-check"></i><b>4.1</b> The Building Blocks: PipeOps</a></li>
+<li class="chapter" data-level="4.2" data-path="pipe-operator.html"><a href="pipe-operator.html"><i class="fa fa-check"></i><b>4.2</b> The Pipeline Operator: <code>%&gt;&gt;%</code></a></li>
+<li class="chapter" data-level="4.3" data-path="pipe-nodes-edges-graphs.html"><a href="pipe-nodes-edges-graphs.html"><i class="fa fa-check"></i><b>4.3</b> Nodes, Edges and Graphs</a></li>
+<li class="chapter" data-level="4.4" data-path="pipe-modeling.html"><a href="pipe-modeling.html"><i class="fa fa-check"></i><b>4.4</b> Modeling</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="pipe-modeling.html"><a href="pipe-modeling.html#pipe-hyperpars"><i class="fa fa-check"></i><b>4.4.1</b> Setting Hyperparameters</a></li>
+<li class="chapter" data-level="4.4.2" data-path="pipe-modeling.html"><a href="pipe-modeling.html#pipe-tuning"><i class="fa fa-check"></i><b>4.4.2</b> Tuning</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="pipe-nonlinear.html"><a href="pipe-nonlinear.html"><i class="fa fa-check"></i><b>4.5</b> Non-Linear Graphs</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="pipe-nonlinear.html"><a href="pipe-nonlinear.html#pipe-model-ensembles-branching-copying"><i class="fa fa-check"></i><b>4.5.1</b> Branching &amp; Copying</a></li>
+<li class="chapter" data-level="4.5.2" data-path="pipe-nonlinear.html"><a href="pipe-nonlinear.html#pipe-model-ensembles"><i class="fa fa-check"></i><b>4.5.2</b> Model Ensembles</a><ul>
+<li class="chapter" data-level="4.5.2.1" data-path="pipe-nonlinear.html"><a href="pipe-nonlinear.html#pipe-model-ensembles-bagging"><i class="fa fa-check"></i><b>4.5.2.1</b> Bagging</a></li>
+<li class="chapter" data-level="4.5.2.2" data-path="pipe-nonlinear.html"><a href="pipe-nonlinear.html#pipe-model-ensembles-stacking"><i class="fa fa-check"></i><b>4.5.2.2</b> Stacking</a></li>
+<li class="chapter" data-level="4.5.2.3" data-path="pipe-nonlinear.html"><a href="pipe-nonlinear.html#multilevel-stacking"><i class="fa fa-check"></i><b>4.5.2.3</b> Multilevel Stacking</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="pipe-special-ops.html"><a href="pipe-special-ops.html"><i class="fa fa-check"></i><b>4.6</b> Special Operators</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="pipe-special-ops.html"><a href="pipe-special-ops.html#imputation-pipeopimpute"><i class="fa fa-check"></i><b>4.6.1</b> Imputation: <span><code>PipeOpImpute</code></span></a></li>
+<li class="chapter" data-level="4.6.2" data-path="pipe-special-ops.html"><a href="pipe-special-ops.html#feature-engineering-pipeopmutate"><i class="fa fa-check"></i><b>4.6.2</b> Feature Engineering: <span><code>PipeOpMutate</code></span></a></li>
+<li class="chapter" data-level="4.6.3" data-path="pipe-special-ops.html"><a href="pipe-special-ops.html#training-on-data-subsets-pipeopchunk"><i class="fa fa-check"></i><b>4.6.3</b> Training on data subsets: <span><code>PipeOpChunk</code></span></a></li>
+<li class="chapter" data-level="4.6.4" data-path="pipe-special-ops.html"><a href="pipe-special-ops.html#feature-selection-pipeopfilter-pipeopselect"><i class="fa fa-check"></i><b>4.6.4</b> Feature Selection: <span><code>PipeOpFilter</code></span> , <span><code>PipeOpSelect</code></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="technical.html"><a href="technical.html"><i class="fa fa-check"></i><b>5</b> Technical</a><ul>
+<li class="chapter" data-level="5.1" data-path="parallelization.html"><a href="parallelization.html"><i class="fa fa-check"></i><b>5.1</b> Parallelization</a></li>
+<li class="chapter" data-level="5.2" data-path="error-handling.html"><a href="error-handling.html"><i class="fa fa-check"></i><b>5.2</b> Error Handling</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="error-handling.html"><a href="error-handling.html#encapsulation"><i class="fa fa-check"></i><b>5.2.1</b> Encapsulation</a></li>
+<li class="chapter" data-level="5.2.2" data-path="error-handling.html"><a href="error-handling.html#fallback-learners"><i class="fa fa-check"></i><b>5.2.2</b> Fallback learners</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="backends.html"><a href="backends.html"><i class="fa fa-check"></i><b>5.3</b> Database Backends</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="backends.html"><a href="backends.html#example-data"><i class="fa fa-check"></i><b>5.3.1</b> Example Data</a></li>
+<li class="chapter" data-level="5.3.2" data-path="backends.html"><a href="backends.html#preprocessing-with-dplyr"><i class="fa fa-check"></i><b>5.3.2</b> Preprocessing with <code>dplyr</code></a></li>
+<li class="chapter" data-level="5.3.3" data-path="backends.html"><a href="backends.html#databackenddplyr"><i class="fa fa-check"></i><b>5.3.3</b> DataBackendDplyr</a></li>
+<li class="chapter" data-level="5.3.4" data-path="backends.html"><a href="backends.html#model-fitting"><i class="fa fa-check"></i><b>5.3.4</b> Model fitting</a></li>
+<li class="chapter" data-level="5.3.5" data-path="backends.html"><a href="backends.html#cleanup"><i class="fa fa-check"></i><b>5.3.5</b> Cleanup</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="paradox.html"><a href="paradox.html"><i class="fa fa-check"></i><b>5.4</b> Parameters (using <code>paradox</code>)</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="paradox.html"><a href="paradox.html#reference-based-objects"><i class="fa fa-check"></i><b>5.4.1</b> Reference Based Objects</a></li>
+<li class="chapter" data-level="5.4.2" data-path="paradox.html"><a href="paradox.html#defining-a-parameter-space"><i class="fa fa-check"></i><b>5.4.2</b> Defining a Parameter Space</a><ul>
+<li class="chapter" data-level="5.4.2.1" data-path="paradox.html"><a href="paradox.html#single-parameters"><i class="fa fa-check"></i><b>5.4.2.1</b> Single Parameters</a></li>
+<li class="chapter" data-level="5.4.2.2" data-path="paradox.html"><a href="paradox.html#parameter-sets"><i class="fa fa-check"></i><b>5.4.2.2</b> Parameter Sets</a></li>
+<li class="chapter" data-level="5.4.2.3" data-path="paradox.html"><a href="paradox.html#vector-parameters"><i class="fa fa-check"></i><b>5.4.2.3</b> Vector Parameters</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4.3" data-path="paradox.html"><a href="paradox.html#parameter-sampling"><i class="fa fa-check"></i><b>5.4.3</b> Parameter Sampling</a><ul>
+<li class="chapter" data-level="5.4.3.1" data-path="paradox.html"><a href="paradox.html#parameter-designs"><i class="fa fa-check"></i><b>5.4.3.1</b> Parameter Designs</a></li>
+<li class="chapter" data-level="5.4.3.2" data-path="paradox.html"><a href="paradox.html#grid-design"><i class="fa fa-check"></i><b>5.4.3.2</b> Grid Design</a></li>
+<li class="chapter" data-level="5.4.3.3" data-path="paradox.html"><a href="paradox.html#random-sampling"><i class="fa fa-check"></i><b>5.4.3.3</b> Random Sampling</a></li>
+<li class="chapter" data-level="5.4.3.4" data-path="paradox.html"><a href="paradox.html#generalized-sampling-the-sampler-class"><i class="fa fa-check"></i><b>5.4.3.4</b> Generalized Sampling: The <code>Sampler</code> Class</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4.4" data-path="paradox.html"><a href="paradox.html#parameter-transformation"><i class="fa fa-check"></i><b>5.4.4</b> Parameter Transformation</a><ul>
+<li class="chapter" data-level="5.4.4.1" data-path="paradox.html"><a href="paradox.html#transformation-between-types"><i class="fa fa-check"></i><b>5.4.4.1</b> Transformation between Types</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="extending.html"><a href="extending.html"><i class="fa fa-check"></i><b>5.5</b> Extending mlr3</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="extending.html"><a href="extending.html#ext-learner"><i class="fa fa-check"></i><b>5.5.1</b> Learners</a><ul>
+<li class="chapter" data-level="5.5.1.1" data-path="extending.html"><a href="extending.html#learner-meta-information"><i class="fa fa-check"></i><b>5.5.1.1</b> Meta-information</a></li>
+<li class="chapter" data-level="5.5.1.2" data-path="extending.html"><a href="extending.html#learner-train"><i class="fa fa-check"></i><b>5.5.1.2</b> Train function</a></li>
+<li class="chapter" data-level="5.5.1.3" data-path="extending.html"><a href="extending.html#learner-predict"><i class="fa fa-check"></i><b>5.5.1.3</b> Predict function</a></li>
+<li class="chapter" data-level="5.5.1.4" data-path="extending.html"><a href="extending.html#final-learner"><i class="fa fa-check"></i><b>5.5.1.4</b> Final learner</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="extending-pipes.html"><a href="extending-pipes.html"><i class="fa fa-check"></i><b>5.6</b> Extending mlr3pipelines</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="extending-pipes.html"><a href="extending-pipes.html#general-case-example-pipeopcopy"><i class="fa fa-check"></i><b>5.6.1</b> General Case Example: <code>PipeOpCopy</code></a><ul>
+<li class="chapter" data-level="5.6.1.1" data-path="extending-pipes.html"><a href="extending-pipes.html#first-steps-inheriting-from-pipeop"><i class="fa fa-check"></i><b>5.6.1.1</b> First Steps: Inheriting from <code>PipeOp</code></a></li>
+<li class="chapter" data-level="5.6.1.2" data-path="extending-pipes.html"><a href="extending-pipes.html#channel-definitions"><i class="fa fa-check"></i><b>5.6.1.2</b> Channel Definitions</a></li>
+<li class="chapter" data-level="5.6.1.3" data-path="extending-pipes.html"><a href="extending-pipes.html#train-and-predict"><i class="fa fa-check"></i><b>5.6.1.3</b> Train and Predict</a></li>
+<li class="chapter" data-level="5.6.1.4" data-path="extending-pipes.html"><a href="extending-pipes.html#putting-it-together"><i class="fa fa-check"></i><b>5.6.1.4</b> Putting it Together</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6.2" data-path="extending-pipes.html"><a href="extending-pipes.html#special-case-preprocessing"><i class="fa fa-check"></i><b>5.6.2</b> Special Case: Preprocessing</a><ul>
+<li class="chapter" data-level="5.6.2.1" data-path="extending-pipes.html"><a href="extending-pipes.html#example-pipeopdropna"><i class="fa fa-check"></i><b>5.6.2.1</b> Example: <code>PipeOpDropNA</code></a></li>
+<li class="chapter" data-level="5.6.2.2" data-path="extending-pipes.html"><a href="extending-pipes.html#example-pipeopscalealways"><i class="fa fa-check"></i><b>5.6.2.2</b> Example: <code>PipeOpScaleAlways</code></a></li>
+</ul></li>
+<li class="chapter" data-level="5.6.3" data-path="extending-pipes.html"><a href="extending-pipes.html#special-case-preprocessing-with-simple-train"><i class="fa fa-check"></i><b>5.6.3</b> Special Case: Preprocessing with Simple Train</a><ul>
+<li class="chapter" data-level="5.6.3.1" data-path="extending-pipes.html"><a href="extending-pipes.html#example-pipeopdropconst"><i class="fa fa-check"></i><b>5.6.3.1</b> Example: <code>PipeOpDropConst</code></a></li>
+<li class="chapter" data-level="5.6.3.2" data-path="extending-pipes.html"><a href="extending-pipes.html#example-pipeopscalealwayssimple"><i class="fa fa-check"></i><b>5.6.3.2</b> Example: <code>PipeOpScaleAlwaysSimple</code></a></li>
+</ul></li>
+<li class="chapter" data-level="5.6.4" data-path="extending-pipes.html"><a href="extending-pipes.html#hyperparameters"><i class="fa fa-check"></i><b>5.6.4</b> Hyperparameters</a><ul>
+<li class="chapter" data-level="5.6.4.1" data-path="extending-pipes.html"><a href="extending-pipes.html#hyperparameter-example-pipeopscale"><i class="fa fa-check"></i><b>5.6.4.1</b> Hyperparameter Example: <code>PipeOpScale</code></a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="special-tasks.html"><a href="special-tasks.html"><i class="fa fa-check"></i><b>6</b> Special Tasks</a><ul>
+<li class="chapter" data-level="6.1" data-path="survival.html"><a href="survival.html"><i class="fa fa-check"></i><b>6.1</b> Survival Analysis</a></li>
+<li class="chapter" data-level="6.2" data-path="ordinal.html"><a href="ordinal.html"><i class="fa fa-check"></i><b>6.2</b> Ordinal Analysis</a></li>
+<li class="chapter" data-level="6.3" data-path="spatial.html"><a href="spatial.html"><i class="fa fa-check"></i><b>6.3</b> Spatial Analysis</a></li>
+<li class="chapter" data-level="6.4" data-path="functional.html"><a href="functional.html"><i class="fa fa-check"></i><b>6.4</b> Functional Analysis</a></li>
+<li class="chapter" data-level="6.5" data-path="multilabel.html"><a href="multilabel.html"><i class="fa fa-check"></i><b>6.5</b> Multilabel Analysis</a></li>
+<li class="chapter" data-level="6.6" data-path="cost-sens.html"><a href="cost-sens.html"><i class="fa fa-check"></i><b>6.6</b> Cost-Sensitive Classification</a><ul>
+<li class="chapter" data-level="6.6.1" data-path="cost-sens.html"><a href="cost-sens.html#a-first-model"><i class="fa fa-check"></i><b>6.6.1</b> A First Model</a></li>
+<li class="chapter" data-level="6.6.2" data-path="cost-sens.html"><a href="cost-sens.html#cost-sensitive-measure"><i class="fa fa-check"></i><b>6.6.2</b> Cost-sensitive Measure</a></li>
+<li class="chapter" data-level="6.6.3" data-path="cost-sens.html"><a href="cost-sens.html#thresholding"><i class="fa fa-check"></i><b>6.6.3</b> Thresholding</a></li>
+<li class="chapter" data-level="6.6.4" data-path="cost-sens.html"><a href="cost-sens.html#threshold-tuning"><i class="fa fa-check"></i><b>6.6.4</b> Threshold Tuning</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="model-interpr.html"><a href="model-interpr.html"><i class="fa fa-check"></i><b>7</b> Model Interpretation with mlr3</a><ul>
+<li class="chapter" data-level="7.1" data-path="iml.html"><a href="iml.html"><i class="fa fa-check"></i><b>7.1</b> IML</a></li>
+<li class="chapter" data-level="7.2" data-path="dalex.html"><a href="dalex.html"><i class="fa fa-check"></i><b>7.2</b> Dalex</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="use-cases.html"><a href="use-cases.html"><i class="fa fa-check"></i><b>8</b> Use Cases</a></li>
+<li class="chapter" data-level="9" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>9</b> Appendix</a><ul>
+<li class="chapter" data-level="9.1" data-path="list-learners.html"><a href="list-learners.html"><i class="fa fa-check"></i><b>9.1</b> Integrated Learners</a></li>
+<li class="chapter" data-level="9.2" data-path="list-filters.html"><a href="list-filters.html"><i class="fa fa-check"></i><b>9.2</b> Integrated Filter Methods</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="list-filters.html"><a href="list-filters.html#fs-filter-list"><i class="fa fa-check"></i><b>9.2.1</b> Standalone filter methods</a></li>
+<li class="chapter" data-level="9.2.2" data-path="list-filters.html"><a href="list-filters.html#fs-filter-embedded-list"><i class="fa fa-check"></i><b>9.2.2</b> Algorithms With Embedded Filter Methods</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">mlr3 manual</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="basics" class="section level1">
+<h1><span class="header-section-number">2</span> mlr3 Basics</h1> 
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="introduction.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/mlr-org/mlr3book/edit/master/bookdown/01-mlr3-basics.Rmd",
+"text": "Edit this chapter"
+},
+"history": {
+"link": "https://github.com/mlr-org/mlr3book/commits/master/01-mlr3-basics.Rmd",
+"text": "Eedit history"
+},
+"download": {},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

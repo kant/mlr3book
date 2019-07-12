@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2.6 Resampling | mlr3 manual</title>
+  <meta name="description" content="2.6 Resampling | mlr3 manual" />
+  <meta name="generator" content="bookdown 0.12 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2.6 Resampling | mlr3 manual" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://mlr3book.mlr-org.com" />
+  
+  
+  <meta name="github-repo" content="mlr-org/mlr3book" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2.6 Resampling | mlr3 manual" />
+  
+  
+  
+
+<meta name="author" content="The mlr-org Team" />
+
+
+<meta name="date" content="2019-07-12" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="train-predict.html">
+<link rel="next" href="benchmarking.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<link href="libs/vis-4.20.1/vis.css" rel="stylesheet" />
+<script src="libs/vis-4.20.1/vis.min.js"></script>
+<script src="libs/visNetwork-binding-2.0.7/visNetwork.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; } /* Alert */
+code span.an { color: #008000; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #0000ff; } /* ControlFlow */
+code span.ch { color: #008080; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #008000; } /* Comment */
+code span.cv { color: #008000; } /* CommentVar */
+code span.do { color: #008000; } /* Documentation */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.im { } /* Import */
+code span.in { color: #008000; } /* Information */
+code span.kw { color: #0000ff; } /* Keyword */
+code span.op { } /* Operator */
+code span.ot { color: #ff4000; } /* Other */
+code span.pp { color: #ff4000; } /* Preprocessor */
+code span.sc { color: #008080; } /* SpecialChar */
+code span.ss { color: #008080; } /* SpecialString */
+code span.st { color: #008080; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #008080; } /* VerbatimString */
+code span.wa { color: #008000; font-weight: bold; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">mlr3 Manual</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a></li>
+<li class="chapter" data-level="2" data-path="basics.html"><a href="basics.html"><i class="fa fa-check"></i><b>2</b> mlr3 Basics</a><ul>
+<li class="chapter" data-level="2.1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>2.1</b> Introduction</a></li>
+<li class="chapter" data-level="2.2" data-path="tasks-learners.html"><a href="tasks-learners.html"><i class="fa fa-check"></i><b>2.2</b> Tasks &amp; Learners</a></li>
+<li class="chapter" data-level="2.3" data-path="tasks.html"><a href="tasks.html"><i class="fa fa-check"></i><b>2.3</b> Tasks</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="tasks.html"><a href="tasks.html#task-types"><i class="fa fa-check"></i><b>2.3.1</b> Task Types</a></li>
+<li class="chapter" data-level="2.3.2" data-path="tasks.html"><a href="tasks.html#task-creation"><i class="fa fa-check"></i><b>2.3.2</b> Task Creation</a></li>
+<li class="chapter" data-level="2.3.3" data-path="tasks.html"><a href="tasks.html#predefined-tasks"><i class="fa fa-check"></i><b>2.3.3</b> Predefined tasks</a></li>
+<li class="chapter" data-level="2.3.4" data-path="tasks.html"><a href="tasks.html#task-api"><i class="fa fa-check"></i><b>2.3.4</b> Task API</a><ul>
+<li class="chapter" data-level="2.3.4.1" data-path="tasks.html"><a href="tasks.html#retrieve-data"><i class="fa fa-check"></i><b>2.3.4.1</b> Retrieve Data</a></li>
+<li class="chapter" data-level="2.3.4.2" data-path="tasks.html"><a href="tasks.html#roles-rows-and-columns"><i class="fa fa-check"></i><b>2.3.4.2</b> Roles (Rows and Columns)</a></li>
+<li class="chapter" data-level="2.3.4.3" data-path="tasks.html"><a href="tasks.html#task-mutators"><i class="fa fa-check"></i><b>2.3.4.3</b> Task Mutators</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="learners.html"><a href="learners.html"><i class="fa fa-check"></i><b>2.4</b> Learners</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="learners.html"><a href="learners.html#predefined-learners"><i class="fa fa-check"></i><b>2.4.1</b> Predefined Learners</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="train-predict.html"><a href="train-predict.html"><i class="fa fa-check"></i><b>2.5</b> Train &amp; Predict</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="train-predict.html"><a href="train-predict.html#basic-concept"><i class="fa fa-check"></i><b>2.5.1</b> Basic concept</a><ul>
+<li class="chapter" data-level="2.5.1.1" data-path="train-predict.html"><a href="train-predict.html#creating-task-and-learner-objects"><i class="fa fa-check"></i><b>2.5.1.1</b> Creating Task and Learner Objects</a></li>
+<li class="chapter" data-level="2.5.1.2" data-path="train-predict.html"><a href="train-predict.html#setting-up-the-traintest-splits-of-the-data-split-data"><i class="fa fa-check"></i><b>2.5.1.2</b> Setting up the train/test splits of the data (#split-data)</a></li>
+<li class="chapter" data-level="2.5.1.3" data-path="train-predict.html"><a href="train-predict.html#training-the-learner"><i class="fa fa-check"></i><b>2.5.1.3</b> Training the learner</a></li>
+<li class="chapter" data-level="2.5.1.4" data-path="train-predict.html"><a href="train-predict.html#predicting"><i class="fa fa-check"></i><b>2.5.1.4</b> Predicting</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="resampling.html"><a href="resampling.html"><i class="fa fa-check"></i><b>2.6</b> Resampling</a><ul>
+<li class="chapter" data-level="2.6.1" data-path="resampling.html"><a href="resampling.html#resamp-settings"><i class="fa fa-check"></i><b>2.6.1</b> Settings</a></li>
+<li class="chapter" data-level="2.6.2" data-path="resampling.html"><a href="resampling.html#resamp-inst"><i class="fa fa-check"></i><b>2.6.2</b> Instantiation</a></li>
+<li class="chapter" data-level="2.6.3" data-path="resampling.html"><a href="resampling.html#resamp-exec"><i class="fa fa-check"></i><b>2.6.3</b> Execution</a></li>
+<li class="chapter" data-level="2.6.4" data-path="resampling.html"><a href="resampling.html#custom-resampling"><i class="fa fa-check"></i><b>2.6.4</b> Custom resampling</a></li>
+</ul></li>
+<li class="chapter" data-level="2.7" data-path="benchmarking.html"><a href="benchmarking.html"><i class="fa fa-check"></i><b>2.7</b> Benchmarking</a><ul>
+<li class="chapter" data-level="2.7.1" data-path="benchmarking.html"><a href="benchmarking.html#bm-design"><i class="fa fa-check"></i><b>2.7.1</b> Design Creation</a></li>
+<li class="chapter" data-level="2.7.2" data-path="benchmarking.html"><a href="benchmarking.html#bm-exec"><i class="fa fa-check"></i><b>2.7.2</b> Execution and Aggregation of Results</a></li>
+<li class="chapter" data-level="2.7.3" data-path="benchmarking.html"><a href="benchmarking.html#converting-specific-benchmark-objects-to-resample-objects"><i class="fa fa-check"></i><b>2.7.3</b> Converting specific benchmark objects to resample objects</a></li>
+</ul></li>
+<li class="chapter" data-level="2.8" data-path="binary.html"><a href="binary.html"><i class="fa fa-check"></i><b>2.8</b> Binary classification</a><ul>
+<li class="chapter" data-level="2.8.1" data-path="binary.html"><a href="binary.html#roc"><i class="fa fa-check"></i><b>2.8.1</b> ROC</a></li>
+<li class="chapter" data-level="2.8.2" data-path="binary.html"><a href="binary.html#thresholds"><i class="fa fa-check"></i><b>2.8.2</b> Thresholds</a></li>
+</ul></li>
+<li class="chapter" data-level="2.9" data-path="mlr-mlr3-transition-guide.html"><a href="mlr-mlr3-transition-guide.html"><i class="fa fa-check"></i><b>2.9</b> <code>mlr</code> -&gt; <code>mlr3</code> Transition Guide</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="model-optim.html"><a href="model-optim.html"><i class="fa fa-check"></i><b>3</b> Model Optimization</a><ul>
+<li class="chapter" data-level="3.1" data-path="tuning.html"><a href="tuning.html"><i class="fa fa-check"></i><b>3.1</b> Hyperparameter Tuning</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="tuning.html"><a href="tuning.html#the-performance-evaluator-class"><i class="fa fa-check"></i><b>3.1.1</b> The <code>Performance Evaluator</code> class</a></li>
+<li class="chapter" data-level="3.1.2" data-path="tuning.html"><a href="tuning.html#tuning-spaces"><i class="fa fa-check"></i><b>3.1.2</b> Tuning Hyperparameter Spaces</a></li>
+<li class="chapter" data-level="3.1.3" data-path="tuning.html"><a href="tuning.html#defining-the-terminator"><i class="fa fa-check"></i><b>3.1.3</b> Defining the Terminator</a></li>
+<li class="chapter" data-level="3.1.4" data-path="tuning.html"><a href="tuning.html#executing-the-tuning"><i class="fa fa-check"></i><b>3.1.4</b> Executing the Tuning</a></li>
+<li class="chapter" data-level="3.1.5" data-path="tuning.html"><a href="tuning.html#inspecting-results"><i class="fa fa-check"></i><b>3.1.5</b> Inspecting Results</a></li>
+<li class="chapter" data-level="3.1.6" data-path="tuning.html"><a href="tuning.html#autotuner"><i class="fa fa-check"></i><b>3.1.6</b> Automating the Tuning</a></li>
+<li class="chapter" data-level="3.1.7" data-path="tuning.html"><a href="tuning.html#summary"><i class="fa fa-check"></i><b>3.1.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="fs.html"><a href="fs.html"><i class="fa fa-check"></i><b>3.2</b> Feature Selection / Filtering</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="fs.html"><a href="fs.html#fs-filter"><i class="fa fa-check"></i><b>3.2.1</b> Filters</a><ul>
+<li class="chapter" data-level="3.2.1.1" data-path="fs.html"><a href="fs.html#fs-calc"><i class="fa fa-check"></i><b>3.2.1.1</b> Calculating filter values</a></li>
+<li class="chapter" data-level="3.2.1.2" data-path="fs.html"><a href="fs.html#fs-comb"><i class="fa fa-check"></i><b>3.2.1.2</b> Combining filter values</a></li>
+<li class="chapter" data-level="3.2.1.3" data-path="fs.html"><a href="fs.html#filter-subset"><i class="fa fa-check"></i><b>3.2.1.3</b> Selecting a feature subset</a></li>
+<li class="chapter" data-level="3.2.1.4" data-path="fs.html"><a href="fs.html#filter-construction"><i class="fa fa-check"></i><b>3.2.1.4</b> Custom construction of filters</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2.2" data-path="fs.html"><a href="fs.html#fs-wrapper"><i class="fa fa-check"></i><b>3.2.2</b> Wrapper Methods</a></li>
+<li class="chapter" data-level="3.2.3" data-path="fs.html"><a href="fs.html#fs-embedded"><i class="fa fa-check"></i><b>3.2.3</b> Embedded Methods</a></li>
+<li class="chapter" data-level="3.2.4" data-path="fs.html"><a href="fs.html#fs-ensemble"><i class="fa fa-check"></i><b>3.2.4</b> Ensemble Methods</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="nested-resampling.html"><a href="nested-resampling.html"><i class="fa fa-check"></i><b>3.3</b> Nested Resampling</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="nested-resampling.html"><a href="nested-resampling.html#introduction-1"><i class="fa fa-check"></i><b>3.3.1</b> Introduction</a></li>
+<li class="chapter" data-level="3.3.2" data-path="nested-resampling.html"><a href="nested-resampling.html#execution"><i class="fa fa-check"></i><b>3.3.2</b> Execution</a></li>
+<li class="chapter" data-level="3.3.3" data-path="nested-resampling.html"><a href="nested-resampling.html#rr-eval"><i class="fa fa-check"></i><b>3.3.3</b> Evaluation</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="pipelines.html"><a href="pipelines.html"><i class="fa fa-check"></i><b>4</b> Pipelines</a><ul>
+<li class="chapter" data-level="4.1" data-path="the-building-blocks-pipeops.html"><a href="the-building-blocks-pipeops.html"><i class="fa fa-check"></i><b>4.1</b> The Building Blocks: PipeOps</a></li>
+<li class="chapter" data-level="4.2" data-path="pipe-operator.html"><a href="pipe-operator.html"><i class="fa fa-check"></i><b>4.2</b> The Pipeline Operator: <code>%&gt;&gt;%</code></a></li>
+<li class="chapter" data-level="4.3" data-path="pipe-nodes-edges-graphs.html"><a href="pipe-nodes-edges-graphs.html"><i class="fa fa-check"></i><b>4.3</b> Nodes, Edges and Graphs</a></li>
+<li class="chapter" data-level="4.4" data-path="pipe-modeling.html"><a href="pipe-modeling.html"><i class="fa fa-check"></i><b>4.4</b> Modeling</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="pipe-modeling.html"><a href="pipe-modeling.html#pipe-hyperpars"><i class="fa fa-check"></i><b>4.4.1</b> Setting Hyperparameters</a></li>
+<li class="chapter" data-level="4.4.2" data-path="pipe-modeling.html"><a href="pipe-modeling.html#pipe-tuning"><i class="fa fa-check"></i><b>4.4.2</b> Tuning</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="pipe-nonlinear.html"><a href="pipe-nonlinear.html"><i class="fa fa-check"></i><b>4.5</b> Non-Linear Graphs</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="pipe-nonlinear.html"><a href="pipe-nonlinear.html#pipe-model-ensembles-branching-copying"><i class="fa fa-check"></i><b>4.5.1</b> Branching &amp; Copying</a></li>
+<li class="chapter" data-level="4.5.2" data-path="pipe-nonlinear.html"><a href="pipe-nonlinear.html#pipe-model-ensembles"><i class="fa fa-check"></i><b>4.5.2</b> Model Ensembles</a><ul>
+<li class="chapter" data-level="4.5.2.1" data-path="pipe-nonlinear.html"><a href="pipe-nonlinear.html#pipe-model-ensembles-bagging"><i class="fa fa-check"></i><b>4.5.2.1</b> Bagging</a></li>
+<li class="chapter" data-level="4.5.2.2" data-path="pipe-nonlinear.html"><a href="pipe-nonlinear.html#pipe-model-ensembles-stacking"><i class="fa fa-check"></i><b>4.5.2.2</b> Stacking</a></li>
+<li class="chapter" data-level="4.5.2.3" data-path="pipe-nonlinear.html"><a href="pipe-nonlinear.html#multilevel-stacking"><i class="fa fa-check"></i><b>4.5.2.3</b> Multilevel Stacking</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="pipe-special-ops.html"><a href="pipe-special-ops.html"><i class="fa fa-check"></i><b>4.6</b> Special Operators</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="pipe-special-ops.html"><a href="pipe-special-ops.html#imputation-pipeopimpute"><i class="fa fa-check"></i><b>4.6.1</b> Imputation: <span><code>PipeOpImpute</code></span></a></li>
+<li class="chapter" data-level="4.6.2" data-path="pipe-special-ops.html"><a href="pipe-special-ops.html#feature-engineering-pipeopmutate"><i class="fa fa-check"></i><b>4.6.2</b> Feature Engineering: <span><code>PipeOpMutate</code></span></a></li>
+<li class="chapter" data-level="4.6.3" data-path="pipe-special-ops.html"><a href="pipe-special-ops.html#training-on-data-subsets-pipeopchunk"><i class="fa fa-check"></i><b>4.6.3</b> Training on data subsets: <span><code>PipeOpChunk</code></span></a></li>
+<li class="chapter" data-level="4.6.4" data-path="pipe-special-ops.html"><a href="pipe-special-ops.html#feature-selection-pipeopfilter-pipeopselect"><i class="fa fa-check"></i><b>4.6.4</b> Feature Selection: <span><code>PipeOpFilter</code></span> , <span><code>PipeOpSelect</code></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="technical.html"><a href="technical.html"><i class="fa fa-check"></i><b>5</b> Technical</a><ul>
+<li class="chapter" data-level="5.1" data-path="parallelization.html"><a href="parallelization.html"><i class="fa fa-check"></i><b>5.1</b> Parallelization</a></li>
+<li class="chapter" data-level="5.2" data-path="error-handling.html"><a href="error-handling.html"><i class="fa fa-check"></i><b>5.2</b> Error Handling</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="error-handling.html"><a href="error-handling.html#encapsulation"><i class="fa fa-check"></i><b>5.2.1</b> Encapsulation</a></li>
+<li class="chapter" data-level="5.2.2" data-path="error-handling.html"><a href="error-handling.html#fallback-learners"><i class="fa fa-check"></i><b>5.2.2</b> Fallback learners</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="backends.html"><a href="backends.html"><i class="fa fa-check"></i><b>5.3</b> Database Backends</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="backends.html"><a href="backends.html#example-data"><i class="fa fa-check"></i><b>5.3.1</b> Example Data</a></li>
+<li class="chapter" data-level="5.3.2" data-path="backends.html"><a href="backends.html#preprocessing-with-dplyr"><i class="fa fa-check"></i><b>5.3.2</b> Preprocessing with <code>dplyr</code></a></li>
+<li class="chapter" data-level="5.3.3" data-path="backends.html"><a href="backends.html#databackenddplyr"><i class="fa fa-check"></i><b>5.3.3</b> DataBackendDplyr</a></li>
+<li class="chapter" data-level="5.3.4" data-path="backends.html"><a href="backends.html#model-fitting"><i class="fa fa-check"></i><b>5.3.4</b> Model fitting</a></li>
+<li class="chapter" data-level="5.3.5" data-path="backends.html"><a href="backends.html#cleanup"><i class="fa fa-check"></i><b>5.3.5</b> Cleanup</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="paradox.html"><a href="paradox.html"><i class="fa fa-check"></i><b>5.4</b> Parameters (using <code>paradox</code>)</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="paradox.html"><a href="paradox.html#reference-based-objects"><i class="fa fa-check"></i><b>5.4.1</b> Reference Based Objects</a></li>
+<li class="chapter" data-level="5.4.2" data-path="paradox.html"><a href="paradox.html#defining-a-parameter-space"><i class="fa fa-check"></i><b>5.4.2</b> Defining a Parameter Space</a><ul>
+<li class="chapter" data-level="5.4.2.1" data-path="paradox.html"><a href="paradox.html#single-parameters"><i class="fa fa-check"></i><b>5.4.2.1</b> Single Parameters</a></li>
+<li class="chapter" data-level="5.4.2.2" data-path="paradox.html"><a href="paradox.html#parameter-sets"><i class="fa fa-check"></i><b>5.4.2.2</b> Parameter Sets</a></li>
+<li class="chapter" data-level="5.4.2.3" data-path="paradox.html"><a href="paradox.html#vector-parameters"><i class="fa fa-check"></i><b>5.4.2.3</b> Vector Parameters</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4.3" data-path="paradox.html"><a href="paradox.html#parameter-sampling"><i class="fa fa-check"></i><b>5.4.3</b> Parameter Sampling</a><ul>
+<li class="chapter" data-level="5.4.3.1" data-path="paradox.html"><a href="paradox.html#parameter-designs"><i class="fa fa-check"></i><b>5.4.3.1</b> Parameter Designs</a></li>
+<li class="chapter" data-level="5.4.3.2" data-path="paradox.html"><a href="paradox.html#grid-design"><i class="fa fa-check"></i><b>5.4.3.2</b> Grid Design</a></li>
+<li class="chapter" data-level="5.4.3.3" data-path="paradox.html"><a href="paradox.html#random-sampling"><i class="fa fa-check"></i><b>5.4.3.3</b> Random Sampling</a></li>
+<li class="chapter" data-level="5.4.3.4" data-path="paradox.html"><a href="paradox.html#generalized-sampling-the-sampler-class"><i class="fa fa-check"></i><b>5.4.3.4</b> Generalized Sampling: The <code>Sampler</code> Class</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4.4" data-path="paradox.html"><a href="paradox.html#parameter-transformation"><i class="fa fa-check"></i><b>5.4.4</b> Parameter Transformation</a><ul>
+<li class="chapter" data-level="5.4.4.1" data-path="paradox.html"><a href="paradox.html#transformation-between-types"><i class="fa fa-check"></i><b>5.4.4.1</b> Transformation between Types</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="extending.html"><a href="extending.html"><i class="fa fa-check"></i><b>5.5</b> Extending mlr3</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="extending.html"><a href="extending.html#ext-learner"><i class="fa fa-check"></i><b>5.5.1</b> Learners</a><ul>
+<li class="chapter" data-level="5.5.1.1" data-path="extending.html"><a href="extending.html#learner-meta-information"><i class="fa fa-check"></i><b>5.5.1.1</b> Meta-information</a></li>
+<li class="chapter" data-level="5.5.1.2" data-path="extending.html"><a href="extending.html#learner-train"><i class="fa fa-check"></i><b>5.5.1.2</b> Train function</a></li>
+<li class="chapter" data-level="5.5.1.3" data-path="extending.html"><a href="extending.html#learner-predict"><i class="fa fa-check"></i><b>5.5.1.3</b> Predict function</a></li>
+<li class="chapter" data-level="5.5.1.4" data-path="extending.html"><a href="extending.html#final-learner"><i class="fa fa-check"></i><b>5.5.1.4</b> Final learner</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="extending-pipes.html"><a href="extending-pipes.html"><i class="fa fa-check"></i><b>5.6</b> Extending mlr3pipelines</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="extending-pipes.html"><a href="extending-pipes.html#general-case-example-pipeopcopy"><i class="fa fa-check"></i><b>5.6.1</b> General Case Example: <code>PipeOpCopy</code></a><ul>
+<li class="chapter" data-level="5.6.1.1" data-path="extending-pipes.html"><a href="extending-pipes.html#first-steps-inheriting-from-pipeop"><i class="fa fa-check"></i><b>5.6.1.1</b> First Steps: Inheriting from <code>PipeOp</code></a></li>
+<li class="chapter" data-level="5.6.1.2" data-path="extending-pipes.html"><a href="extending-pipes.html#channel-definitions"><i class="fa fa-check"></i><b>5.6.1.2</b> Channel Definitions</a></li>
+<li class="chapter" data-level="5.6.1.3" data-path="extending-pipes.html"><a href="extending-pipes.html#train-and-predict"><i class="fa fa-check"></i><b>5.6.1.3</b> Train and Predict</a></li>
+<li class="chapter" data-level="5.6.1.4" data-path="extending-pipes.html"><a href="extending-pipes.html#putting-it-together"><i class="fa fa-check"></i><b>5.6.1.4</b> Putting it Together</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6.2" data-path="extending-pipes.html"><a href="extending-pipes.html#special-case-preprocessing"><i class="fa fa-check"></i><b>5.6.2</b> Special Case: Preprocessing</a><ul>
+<li class="chapter" data-level="5.6.2.1" data-path="extending-pipes.html"><a href="extending-pipes.html#example-pipeopdropna"><i class="fa fa-check"></i><b>5.6.2.1</b> Example: <code>PipeOpDropNA</code></a></li>
+<li class="chapter" data-level="5.6.2.2" data-path="extending-pipes.html"><a href="extending-pipes.html#example-pipeopscalealways"><i class="fa fa-check"></i><b>5.6.2.2</b> Example: <code>PipeOpScaleAlways</code></a></li>
+</ul></li>
+<li class="chapter" data-level="5.6.3" data-path="extending-pipes.html"><a href="extending-pipes.html#special-case-preprocessing-with-simple-train"><i class="fa fa-check"></i><b>5.6.3</b> Special Case: Preprocessing with Simple Train</a><ul>
+<li class="chapter" data-level="5.6.3.1" data-path="extending-pipes.html"><a href="extending-pipes.html#example-pipeopdropconst"><i class="fa fa-check"></i><b>5.6.3.1</b> Example: <code>PipeOpDropConst</code></a></li>
+<li class="chapter" data-level="5.6.3.2" data-path="extending-pipes.html"><a href="extending-pipes.html#example-pipeopscalealwayssimple"><i class="fa fa-check"></i><b>5.6.3.2</b> Example: <code>PipeOpScaleAlwaysSimple</code></a></li>
+</ul></li>
+<li class="chapter" data-level="5.6.4" data-path="extending-pipes.html"><a href="extending-pipes.html#hyperparameters"><i class="fa fa-check"></i><b>5.6.4</b> Hyperparameters</a><ul>
+<li class="chapter" data-level="5.6.4.1" data-path="extending-pipes.html"><a href="extending-pipes.html#hyperparameter-example-pipeopscale"><i class="fa fa-check"></i><b>5.6.4.1</b> Hyperparameter Example: <code>PipeOpScale</code></a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="special-tasks.html"><a href="special-tasks.html"><i class="fa fa-check"></i><b>6</b> Special Tasks</a><ul>
+<li class="chapter" data-level="6.1" data-path="survival.html"><a href="survival.html"><i class="fa fa-check"></i><b>6.1</b> Survival Analysis</a></li>
+<li class="chapter" data-level="6.2" data-path="ordinal.html"><a href="ordinal.html"><i class="fa fa-check"></i><b>6.2</b> Ordinal Analysis</a></li>
+<li class="chapter" data-level="6.3" data-path="spatial.html"><a href="spatial.html"><i class="fa fa-check"></i><b>6.3</b> Spatial Analysis</a></li>
+<li class="chapter" data-level="6.4" data-path="functional.html"><a href="functional.html"><i class="fa fa-check"></i><b>6.4</b> Functional Analysis</a></li>
+<li class="chapter" data-level="6.5" data-path="multilabel.html"><a href="multilabel.html"><i class="fa fa-check"></i><b>6.5</b> Multilabel Analysis</a></li>
+<li class="chapter" data-level="6.6" data-path="cost-sens.html"><a href="cost-sens.html"><i class="fa fa-check"></i><b>6.6</b> Cost-Sensitive Classification</a><ul>
+<li class="chapter" data-level="6.6.1" data-path="cost-sens.html"><a href="cost-sens.html#a-first-model"><i class="fa fa-check"></i><b>6.6.1</b> A First Model</a></li>
+<li class="chapter" data-level="6.6.2" data-path="cost-sens.html"><a href="cost-sens.html#cost-sensitive-measure"><i class="fa fa-check"></i><b>6.6.2</b> Cost-sensitive Measure</a></li>
+<li class="chapter" data-level="6.6.3" data-path="cost-sens.html"><a href="cost-sens.html#thresholding"><i class="fa fa-check"></i><b>6.6.3</b> Thresholding</a></li>
+<li class="chapter" data-level="6.6.4" data-path="cost-sens.html"><a href="cost-sens.html#threshold-tuning"><i class="fa fa-check"></i><b>6.6.4</b> Threshold Tuning</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="model-interpr.html"><a href="model-interpr.html"><i class="fa fa-check"></i><b>7</b> Model Interpretation with mlr3</a><ul>
+<li class="chapter" data-level="7.1" data-path="iml.html"><a href="iml.html"><i class="fa fa-check"></i><b>7.1</b> IML</a></li>
+<li class="chapter" data-level="7.2" data-path="dalex.html"><a href="dalex.html"><i class="fa fa-check"></i><b>7.2</b> Dalex</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="use-cases.html"><a href="use-cases.html"><i class="fa fa-check"></i><b>8</b> Use Cases</a></li>
+<li class="chapter" data-level="9" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>9</b> Appendix</a><ul>
+<li class="chapter" data-level="9.1" data-path="list-learners.html"><a href="list-learners.html"><i class="fa fa-check"></i><b>9.1</b> Integrated Learners</a></li>
+<li class="chapter" data-level="9.2" data-path="list-filters.html"><a href="list-filters.html"><i class="fa fa-check"></i><b>9.2</b> Integrated Filter Methods</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="list-filters.html"><a href="list-filters.html#fs-filter-list"><i class="fa fa-check"></i><b>9.2.1</b> Standalone filter methods</a></li>
+<li class="chapter" data-level="9.2.2" data-path="list-filters.html"><a href="list-filters.html#fs-filter-embedded-list"><i class="fa fa-check"></i><b>9.2.2</b> Algorithms With Embedded Filter Methods</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">mlr3 manual</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="resampling" class="section level2">
+<h2><span class="header-section-number">2.6</span> Resampling</h2>
+<div id="resamp-settings" class="section level3">
+<h3><span class="header-section-number">2.6.1</span> Settings</h3>
+<p>In this example we use the <em>iris</em> task and a simple classification tree (package <code>rpart</code>).</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" title="1">task =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw">get</span>(<span class="st">&quot;iris&quot;</span>)</a>
+<a class="sourceLine" id="cb37-2" title="2">learner =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw">get</span>(<span class="st">&quot;classif.rpart&quot;</span>)</a></code></pre></div>
+<p>When performing resampling with a dataset, we first need to define which approach should be used.
+The resampling strategies of <em>mlr3</em> can be queried using the <code>.$keys()</code> method of the <a href="https://mlr3.mlr-org.com/reference/mlr_resamplings.html"><code>mlr_resamplings</code></a> dictionary.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" title="1">mlr_resamplings</a>
+<a class="sourceLine" id="cb38-2" title="2"><span class="co">## &lt;DictionaryResampling&gt; with 7 stored values</span></a>
+<a class="sourceLine" id="cb38-3" title="3"><span class="co">## Keys: bootstrap, custom, cv, cv3, holdout, repeated_cv, subsampling</span></a></code></pre></div>
+<p>Additional resampling methods for special use cases will be available via extension packages, such as <a href="https://mlr3survival.mlr-org.com">mlr3survival</a> for survival analysis or <a href="https://github.com/mlr-org/mlr3spatiotemporal">mlr3spatiotemporal</a> for spatial data (still in development).</p>
+<p>The model fit conducted in the <a href="train-predict.html#train-predict">train/predict/score</a> chapter is equivalent to a “holdout”, so let’s consider this one first.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1">resampling =<span class="st"> </span>mlr_resamplings<span class="op">$</span><span class="kw">get</span>(<span class="st">&quot;holdout&quot;</span>)</a>
+<a class="sourceLine" id="cb39-2" title="2"><span class="kw">print</span>(resampling)</a>
+<a class="sourceLine" id="cb39-3" title="3"><span class="co">## &lt;ResamplingHoldout&gt; with 1 iterations</span></a>
+<a class="sourceLine" id="cb39-4" title="4"><span class="co">## Instantiated: FALSE</span></a>
+<a class="sourceLine" id="cb39-5" title="5"><span class="co">## Parameters: ratio=0.6667</span></a></code></pre></div>
+<p>Note that the <code>Instantianated</code> field is set to <code>FALSE</code>.
+This means we did not actually apply the strategy on a dataset yet but just performed a dry-run.
+Applying the strategy on a dataset is done in section next <a href="#instantation">Instantation</a>.</p>
+<p>By default we get a .66/.33 split of the data.
+There are two ways how the ratio can be changed:</p>
+<ol style="list-style-type: decimal">
+<li>Overwriting the slot in <code>.$param_set$values</code> using a named list.</li>
+</ol>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1">resampling<span class="op">$</span>param_set<span class="op">$</span>values =<span class="st"> </span><span class="kw">list</span>(<span class="dt">ratio =</span> <span class="fl">0.8</span>)</a></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>Specifying the resampling parameters directly during construction using the <code>param_vals</code> argument:</li>
+</ol>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" title="1">mlr_resamplings<span class="op">$</span><span class="kw">get</span>(<span class="st">&quot;holdout&quot;</span>, <span class="dt">param_vals =</span> <span class="kw">list</span>(<span class="dt">ratio =</span> <span class="fl">0.8</span>))</a>
+<a class="sourceLine" id="cb41-2" title="2"><span class="co">## &lt;ResamplingHoldout&gt; with 1 iterations</span></a>
+<a class="sourceLine" id="cb41-3" title="3"><span class="co">## Instantiated: FALSE</span></a>
+<a class="sourceLine" id="cb41-4" title="4"><span class="co">## Parameters: ratio=0.8</span></a></code></pre></div>
+</div>
+<div id="resamp-inst" class="section level3">
+<h3><span class="header-section-number">2.6.2</span> Instantiation</h3>
+<p>So far we just set the stage and selected the resampling strategy.
+To actually perform the splitting, we need to apply the settings on a dataset.
+This can be done in two ways:</p>
+<ol style="list-style-type: decimal">
+<li>Manually by calling the method <code>.$instantiate()</code> on a <a href="https://mlr3.mlr-org.com/reference/Task.html"><code>Task</code></a></li>
+</ol>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" title="1">resampling =<span class="st"> </span>mlr_resamplings<span class="op">$</span><span class="kw">get</span>(<span class="st">&quot;cv&quot;</span>, <span class="dt">param_vals =</span> <span class="kw">list</span>(<span class="dt">folds =</span> 3L))</a>
+<a class="sourceLine" id="cb42-2" title="2">resampling<span class="op">$</span><span class="kw">instantiate</span>(task)</a>
+<a class="sourceLine" id="cb42-3" title="3">resampling<span class="op">$</span>iters</a>
+<a class="sourceLine" id="cb42-4" title="4"><span class="co">## [1] 3</span></a>
+<a class="sourceLine" id="cb42-5" title="5">resampling<span class="op">$</span><span class="kw">train_set</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb42-6" title="6"><span class="co">##   [1]   1   2   4   5   7  12  14  15  17  18  21  22  23  24  25  28  30  35</span></a>
+<a class="sourceLine" id="cb42-7" title="7"><span class="co">##  [19]  40  42  43  48  49  53  54  58  59  60  67  69  70  73  78  88  92  93</span></a>
+<a class="sourceLine" id="cb42-8" title="8"><span class="co">##  [37] 103 104 108 110 114 115 137 138 139 141 142 143 144 145   3   9  10  11</span></a>
+<a class="sourceLine" id="cb42-9" title="9"><span class="co">##  [55]  13  16  26  27  31  32  38  44  46  51  56  57  61  68  72  74  76  77</span></a>
+<a class="sourceLine" id="cb42-10" title="10"><span class="co">##  [73]  81  86  89  94  95  96  98 101 102 106 109 111 112 113 120 121 123 125</span></a>
+<a class="sourceLine" id="cb42-11" title="11"><span class="co">##  [91] 126 129 131 133 134 135 146 147 148 149</span></a></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>Automatically by passing the resampling object to <code>resample()</code>. Here, the splitting is done within the <code>resample()</code> call based on the supplied <a href="https://mlr3.mlr-org.com/reference/Task.html"><code>Task</code></a>.</li>
+</ol>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" title="1">learner1 =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw">get</span>(<span class="st">&quot;classif.rpart&quot;</span>) <span class="co"># simple classification tree</span></a>
+<a class="sourceLine" id="cb43-2" title="2">learner2 =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw">get</span>(<span class="st">&quot;classif.featureless&quot;</span>) <span class="co"># featureless learner, prediction majority class</span></a>
+<a class="sourceLine" id="cb43-3" title="3">rr1 =<span class="st"> </span><span class="kw">resample</span>(task, learner1, resampling)</a>
+<a class="sourceLine" id="cb43-4" title="4">rr2 =<span class="st"> </span><span class="kw">resample</span>(task, learner2, resampling)</a>
+<a class="sourceLine" id="cb43-5" title="5"></a>
+<a class="sourceLine" id="cb43-6" title="6"><span class="kw">setequal</span>(rr1<span class="op">$</span>resampling<span class="op">$</span><span class="kw">train_set</span>(<span class="dv">1</span>), rr2<span class="op">$</span>resampling<span class="op">$</span><span class="kw">train_set</span>(<span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb43-7" title="7"><span class="co">## [1] TRUE</span></a></code></pre></div>
+<p>If you want to compare multiple learners, you should use the same resampling per task to reduce the variance of the performance estimation (<strong>method 1</strong>).
+If you use <strong>method 2</strong> (and do not instantiate manually before), the resampling splits will differ between both runs.</p>
+<p>If you aim is to compare different <a href="https://mlr3.mlr-org.com/reference/Task.html"><code>Task</code></a>, <a href="https://mlr3.mlr-org.com/reference/Learner.html"><code>Learner</code></a> or <a href="https://mlr3.mlr-org.com/reference/Resampling.html"><code>Resampling</code></a>, you are better off using the <a href="https://mlr3.mlr-org.com/reference/benchmark.html"><code>benchmark()</code></a> function.
+It is basically a wrapper around <a href="https://mlr3.mlr-org.com/reference/resample.html"><code>resample()</code></a> simplifying the handling of multiple settings.</p>
+<p>If you discover this only after you’ve run multiple <a href="https://mlr3.mlr-org.com/reference/resample.html"><code>resample()</code></a> calls, don’t worry - you can transform multiple single <a href="https://mlr3.mlr-org.com/reference/ResampleResult.html"><code>ResampleResult</code></a> objects into a <a href="https://mlr3.mlr-org.com/reference/BenchmarkResult.html"><code>BenchmarkResult</code></a> (explained later) using the <code>.$combine()</code> method.</p>
+</div>
+<div id="resamp-exec" class="section level3">
+<h3><span class="header-section-number">2.6.3</span> Execution</h3>
+<p>With a <a href="https://mlr3.mlr-org.com/reference/Task.html"><code>Task</code></a>, a <a href="https://mlr3.mlr-org.com/reference/Learner.html"><code>Learner</code></a> and <a href="https://mlr3.mlr-org.com/reference/Resampling.html"><code>Resampling</code></a> object we can call <a href="https://mlr3.mlr-org.com/reference/resample.html"><code>resample()</code></a> and create a <a href="https://mlr3.mlr-org.com/reference/ResampleResult.html"><code>ResampleResult</code></a> object.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" title="1">rr =<span class="st"> </span><span class="kw">resample</span>(task, learner, resampling)</a>
+<a class="sourceLine" id="cb44-2" title="2"><span class="kw">print</span>(rr)</a>
+<a class="sourceLine" id="cb44-3" title="3"><span class="co">## &lt;ResampleResult&gt; of 3 iterations</span></a>
+<a class="sourceLine" id="cb44-4" title="4"><span class="co">## Task: iris</span></a>
+<a class="sourceLine" id="cb44-5" title="5"><span class="co">## Learner: classif.rpart</span></a></code></pre></div>
+<p>Before we go into more detail, let’s change the resampling to a “3-fold cross-validation” to better illustrate what operations are possible with a <a href="https://mlr3.mlr-org.com/reference/ResampleResult.html"><code>ResampleResult</code></a>.
+Additionally, we tell <a href="https://mlr3.mlr-org.com/reference/resample.html"><code>resample()</code></a> to keep the fitted models via a control object (see <a href="https://mlr3.mlr-org.com/reference/mlr_control.html"><code>mlr_control()</code></a>):</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" title="1">resampling =<span class="st"> </span>mlr_resamplings<span class="op">$</span><span class="kw">get</span>(<span class="st">&quot;cv&quot;</span>, <span class="dt">param_vals =</span> <span class="kw">list</span>(<span class="dt">folds =</span> 3L))</a>
+<a class="sourceLine" id="cb45-2" title="2">ctrl =<span class="st"> </span><span class="kw">mlr_control</span>(<span class="dt">store_models =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb45-3" title="3">rr =<span class="st"> </span><span class="kw">resample</span>(task, learner, resampling, <span class="dt">ctrl =</span> ctrl)</a>
+<a class="sourceLine" id="cb45-4" title="4"><span class="kw">print</span>(rr)</a>
+<a class="sourceLine" id="cb45-5" title="5"><span class="co">## &lt;ResampleResult&gt; of 3 iterations</span></a>
+<a class="sourceLine" id="cb45-6" title="6"><span class="co">## Task: iris</span></a>
+<a class="sourceLine" id="cb45-7" title="7"><span class="co">## Learner: classif.rpart</span></a></code></pre></div>
+<p>The following operations are supported with <a href="https://mlr3.mlr-org.com/reference/ResampleResult.html"><code>ResampleResult</code></a> objects:</p>
+<ul>
+<li>Extract the performance for the individual resampling iterations:</li>
+</ul>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" title="1">rr<span class="op">$</span><span class="kw">performance</span>(<span class="st">&quot;classif.ce&quot;</span>)</a>
+<a class="sourceLine" id="cb46-2" title="2"><span class="co">##             task task_id               learner    learner_id     resampling</span></a>
+<a class="sourceLine" id="cb46-3" title="3"><span class="co">## 1: &lt;TaskClassif&gt;    iris &lt;LearnerClassifRpart&gt; classif.rpart &lt;ResamplingCV&gt;</span></a>
+<a class="sourceLine" id="cb46-4" title="4"><span class="co">## 2: &lt;TaskClassif&gt;    iris &lt;LearnerClassifRpart&gt; classif.rpart &lt;ResamplingCV&gt;</span></a>
+<a class="sourceLine" id="cb46-5" title="5"><span class="co">## 3: &lt;TaskClassif&gt;    iris &lt;LearnerClassifRpart&gt; classif.rpart &lt;ResamplingCV&gt;</span></a>
+<a class="sourceLine" id="cb46-6" title="6"><span class="co">##    resampling_id iteration          prediction classif.ce</span></a>
+<a class="sourceLine" id="cb46-7" title="7"><span class="co">## 1:            cv         1 &lt;PredictionClassif&gt;       0.04</span></a>
+<a class="sourceLine" id="cb46-8" title="8"><span class="co">## 2:            cv         2 &lt;PredictionClassif&gt;       0.06</span></a>
+<a class="sourceLine" id="cb46-9" title="9"><span class="co">## 3:            cv         3 &lt;PredictionClassif&gt;       0.10</span></a></code></pre></div>
+<ul>
+<li>Extract and inspect the resampling splits:</li>
+</ul>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" title="1">rr<span class="op">$</span>resampling</a>
+<a class="sourceLine" id="cb47-2" title="2"><span class="co">## &lt;ResamplingCV&gt; with 3 iterations</span></a>
+<a class="sourceLine" id="cb47-3" title="3"><span class="co">## Instantiated: TRUE</span></a>
+<a class="sourceLine" id="cb47-4" title="4"><span class="co">## Parameters: folds=3</span></a>
+<a class="sourceLine" id="cb47-5" title="5">rr<span class="op">$</span>resampling<span class="op">$</span>iters</a>
+<a class="sourceLine" id="cb47-6" title="6"><span class="co">## [1] 3</span></a>
+<a class="sourceLine" id="cb47-7" title="7">rr<span class="op">$</span>resampling<span class="op">$</span><span class="kw">test_set</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb47-8" title="8"><span class="co">##  [1]   5   8  11  13  15  20  23  26  28  30  31  33  37  39  40  42  45  49  52</span></a>
+<a class="sourceLine" id="cb47-9" title="9"><span class="co">## [20]  54  56  60  63  67  73  74  76  80  81  83  86  88  91  92  97  99 103 105</span></a>
+<a class="sourceLine" id="cb47-10" title="10"><span class="co">## [39] 109 111 117 122 127 131 133 145 147 148 149 150</span></a>
+<a class="sourceLine" id="cb47-11" title="11">rr<span class="op">$</span>resampling<span class="op">$</span><span class="kw">train_set</span>(<span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb47-12" title="12"><span class="co">##   [1]   5   8  11  13  15  20  23  26  28  30  31  33  37  39  40  42  45  49</span></a>
+<a class="sourceLine" id="cb47-13" title="13"><span class="co">##  [19]  52  54  56  60  63  67  73  74  76  80  81  83  86  88  91  92  97  99</span></a>
+<a class="sourceLine" id="cb47-14" title="14"><span class="co">##  [37] 103 105 109 111 117 122 127 131 133 145 147 148 149 150   1   3   6   7</span></a>
+<a class="sourceLine" id="cb47-15" title="15"><span class="co">##  [55]  14  17  21  27  34  35  43  47  48  50  51  55  59  62  64  70  71  72</span></a>
+<a class="sourceLine" id="cb47-16" title="16"><span class="co">##  [73]  75  78  82  85  87 101 104 106 107 108 110 112 113 115 116 121 125 126</span></a>
+<a class="sourceLine" id="cb47-17" title="17"><span class="co">##  [91] 128 129 130 132 136 137 139 140 143 144</span></a></code></pre></div>
+<ul>
+<li>Retrieve the learner of a specific iteration and inspect it:</li>
+</ul>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" title="1">lrn =<span class="st"> </span>rr<span class="op">$</span>learners[[<span class="dv">1</span>]]</a>
+<a class="sourceLine" id="cb48-2" title="2">lrn<span class="op">$</span>model</a>
+<a class="sourceLine" id="cb48-3" title="3"><span class="co">## n= 100 </span></a>
+<a class="sourceLine" id="cb48-4" title="4"><span class="co">## </span></a>
+<a class="sourceLine" id="cb48-5" title="5"><span class="co">## node), split, n, loss, yval, (yprob)</span></a>
+<a class="sourceLine" id="cb48-6" title="6"><span class="co">##       * denotes terminal node</span></a>
+<a class="sourceLine" id="cb48-7" title="7"><span class="co">## </span></a>
+<a class="sourceLine" id="cb48-8" title="8"><span class="co">## 1) root 100 64 virginica (0.32000 0.32000 0.36000)  </span></a>
+<a class="sourceLine" id="cb48-9" title="9"><span class="co">##   2) Petal.Length&lt; 2.6 32  0 setosa (1.00000 0.00000 0.00000) *</span></a>
+<a class="sourceLine" id="cb48-10" title="10"><span class="co">##   3) Petal.Length&gt;=2.6 68 32 virginica (0.00000 0.47059 0.52941)  </span></a>
+<a class="sourceLine" id="cb48-11" title="11"><span class="co">##     6) Petal.Length&lt; 4.85 31  2 versicolor (0.00000 0.93548 0.06452) *</span></a>
+<a class="sourceLine" id="cb48-12" title="12"><span class="co">##     7) Petal.Length&gt;=4.85 37  3 virginica (0.00000 0.08108 0.91892) *</span></a></code></pre></div>
+</div>
+<div id="custom-resampling" class="section level3">
+<h3><span class="header-section-number">2.6.4</span> Custom resampling</h3>
+<p>Sometimes it is necessary to perform resampling with custom splits.
+If you want to do that because you are coming from a specific modeling field, take a look first at the <em>mlr3</em> extension packages to make sure your custom resampling method hasn’t been implemented already.</p>
+<p>If your custom resampling method is widely used in your field, feel welcome to integrate it into one of the existing <em>mlr3</em> extension packages or create your own one.</p>
+<p>A manual resampling instance can be created using the <code>"custom"</code> template from the <a href="https://mlr3.mlr-org.com/reference/mlr_resamplings.html"><code>mlr_resamplings</code></a> dictionary.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" title="1">resampling =<span class="st"> </span>mlr_resamplings<span class="op">$</span><span class="kw">get</span>(<span class="st">&quot;custom&quot;</span>)</a>
+<a class="sourceLine" id="cb49-2" title="2">resampling<span class="op">$</span><span class="kw">instantiate</span>(task,</a>
+<a class="sourceLine" id="cb49-3" title="3">  <span class="kw">list</span>(<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dv">51</span><span class="op">:</span><span class="dv">60</span>, <span class="dv">101</span><span class="op">:</span><span class="dv">110</span>)),</a>
+<a class="sourceLine" id="cb49-4" title="4">  <span class="kw">list</span>(<span class="kw">c</span>(<span class="dv">11</span><span class="op">:</span><span class="dv">20</span>, <span class="dv">61</span><span class="op">:</span><span class="dv">70</span>, <span class="dv">111</span><span class="op">:</span><span class="dv">120</span>))</a>
+<a class="sourceLine" id="cb49-5" title="5">)</a>
+<a class="sourceLine" id="cb49-6" title="6">resampling<span class="op">$</span>iters</a>
+<a class="sourceLine" id="cb49-7" title="7"><span class="co">## [1] 1</span></a>
+<a class="sourceLine" id="cb49-8" title="8">resampling<span class="op">$</span><span class="kw">train_set</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb49-9" title="9"><span class="co">##  [1]   1   2   3   4   5   6   7   8   9  10  51  52  53  54  55  56  57  58  59</span></a>
+<a class="sourceLine" id="cb49-10" title="10"><span class="co">## [20]  60 101 102 103 104 105 106 107 108 109 110</span></a>
+<a class="sourceLine" id="cb49-11" title="11">resampling<span class="op">$</span><span class="kw">test_set</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb49-12" title="12"><span class="co">##  [1]  11  12  13  14  15  16  17  18  19  20  61  62  63  64  65  66  67  68  69</span></a>
+<a class="sourceLine" id="cb49-13" title="13"><span class="co">## [20]  70 111 112 113 114 115 116 117 118 119 120</span></a></code></pre></div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="train-predict.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="benchmarking.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/mlr-org/mlr3book/edit/master/bookdown/01-mlr3-basics.Rmd",
+"text": "Edit this chapter"
+},
+"history": {
+"link": "https://github.com/mlr-org/mlr3book/commits/master/01-mlr3-basics.Rmd",
+"text": "Eedit history"
+},
+"download": {},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
